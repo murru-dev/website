@@ -24,10 +24,10 @@ const prev = () => {
   }
   index.value--;
 };
-/* const carouselRef = ref(); */
 
+/* const carouselRef = ref();
 onMounted(() => {
-  /* setInterval(() => {
+  setInterval(() => {
     if (!carouselRef.value) return;
 
     if (carouselRef.value.page === carouselRef.value.pages) {
@@ -35,8 +35,8 @@ onMounted(() => {
     }
 
     carouselRef.value.next();
-  }, 3000); */
-});
+  }, 3000);
+}); */
 </script>
 <template>
   <section class="testimonials-wrapper">
