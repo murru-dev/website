@@ -20,6 +20,13 @@ const pages: IPage[] = [
   },
   {
     name: {
+      es: "Servicios",
+      en: "Services",
+    },
+    url: "/services",
+  },
+  {
+    name: {
       es: "Proyectos & Tutoriales",
       en: "Projects & Tutorials",
     },
