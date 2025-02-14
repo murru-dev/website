@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import alexAvatar from "@/assets/img/Alex-Pic-no-bg.png";
+import type { IClientTestimony, ISocialAccount } from "~/types";
 
 const socialAccounts: ISocialAccount[] = [
   {
@@ -29,88 +30,49 @@ const openCV = () => {
   );
 };
 
-const projects = ref<IProjectItem[]>([]);
+const projects = ref([
+  {
+    bg: "https://bentos-react.vercel.app/assets/work1-CBmW8qa2.jpg",
+    name: "Web Application One",
+    client: "One",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
+    tags: ["project", "application", "web", "fullstack"],
+  },
+  {
+    bg: "https://bentos-react.vercel.app/assets/work2-DtmWxhl8.jpg",
+    name: "Web Site One",
+    client: "Two",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit.",
+    tags: ["tutorial", "web", "frontend"],
+  },
+  {
+    bg: "https://bentos-react.vercel.app/assets/work3-BeTDGQxd.jpg",
+    name: "API One",
+    client: "Thre",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit vestibulum quis eu.",
+    tags: ["project", "backend"],
+  },
+  {
+    bg: "https://bentos-react.vercel.app/assets/work4-MDM2TfKy.jpg",
+    name: "Web Application Four",
+    client: "Four",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
+    tags: ["project", "application", "web", "fullstack"],
+  },
+]);
 
-const testimonies = ref<ITestimony[]>([]);
-onMounted(() => {
-  // Query all home data
-  // Testimonies
-  testimonies.value = [
-    {
-      project: "Vocab Tracker",
-      name: "Daniel Córdoba",
-      company: "DC Vocabulary",
-      position: "Owner",
-      avatar:
-        "https://cdn.prod.website-files.com/63fbd08ddcf51344a63f9add/63fbd08ddcf5138c183f9b00_Testimonial%20Avatar.png",
-      text: "Alex is somebody you need as a steward of your brand. He’s able to craft compelling brand narratives that bring a company’s vision tadasdo life.",
-      date: "Oct 18th, 2024",
-    },
-    {
-      project: "Sells Quoter",
-      name: "Martín López",
-      company: "Alocra Group",
-      position: "Team Sponsor",
-      avatar: "https://avatars.githubusercontent.com/u/904724?v=4",
-      text: "Alex is a game-changer! His expertise transforms ideas into powerful digital experiences that truly stand out. His technical skills elevate any project to success.",
-      date: "Nov 5th, 2024",
-    },
-    {
-      project: "Company Website",
-      name: "Yoshua Carrasco",
-      company: "Soluciones PDG SA",
-      position: "Owner",
-      avatar: "https://avatars.githubusercontent.com/u/7547335?v=4",
-      text: "Alex's attention to detail and commitment to excellence the difference. He’s a problem solver who ensures every project exceeds expectations.",
-      date: "Jan 27th, 2025",
-    },
-    {
-      project: "Casas Padel Club Website",
-      name: "Waleska Caballero",
-      company: "Hue Agency",
-      position: "Manager",
-      avatar: "https://avatars0.githubusercontent.com/u/9064066?v=4&s=460",
-      text: "Alex delivers beyond expectations. His ability to turn complex challenges into simple, effective solutions is impressive.",
-      date: "Feb 16th, 2025",
-    },
-  ];
+const testimonies = ref<IClientTestimony[]>([]);
 
-  // Projects
-  projects.value = [
-    {
-      bg: "https://bentos-react.vercel.app/assets/work1-CBmW8qa2.jpg",
-      name: "Web Application One",
-      client: "One",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
-      tags: ["project", "application", "web", "fullstack"],
-    },
-    {
-      bg: "https://bentos-react.vercel.app/assets/work2-DtmWxhl8.jpg",
-      name: "Web Site One",
-      client: "Two",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit.",
-      tags: ["tutorial", "web", "frontend"],
-    },
-    {
-      bg: "https://bentos-react.vercel.app/assets/work3-BeTDGQxd.jpg",
-      name: "API One",
-      client: "Thre",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit vestibulum quis eu.",
-      tags: ["project", "backend"],
-    },
-    {
-      bg: "https://bentos-react.vercel.app/assets/work4-MDM2TfKy.jpg",
-      name: "Web Application Four",
-      client: "Four",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
-      tags: ["project", "application", "web", "fullstack"],
-    },
-  ];
-});
+// Query home data
+const { data, status, error } = await useFetch("/api/home");
+
+if (data.value?.status === "success") {
+  testimonies.value = data.value?.testimonies;
+}
 </script>
 <template>
   <!-- Home -->
