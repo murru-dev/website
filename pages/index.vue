@@ -1,11 +1,6 @@
 <script lang="ts" setup>
 import alexAvatar from "@/assets/img/Alex-Pic-no-bg.png";
-interface ISocialAccount {
-  name?: string;
-  icon: string;
-  colorClasses?: string[];
-  url: string;
-}
+
 const socialAccounts: ISocialAccount[] = [
   {
     icon: "i-teenyicons-instagram-solid",
@@ -104,6 +99,49 @@ const projects: IProjectItem[] = [
     tags: ["project", "application", "web", "fullstack"],
   },
 ];
+
+const testimonies = ref<ITestimony[]>([]);
+onMounted(() => {
+  testimonies.value = [
+    {
+      project: "Vocab Tracker",
+      name: "Daniel Córdoba",
+      company: "DC Vocabulary",
+      position: "Owner",
+      avatar:
+        "https://cdn.prod.website-files.com/63fbd08ddcf51344a63f9add/63fbd08ddcf5138c183f9b00_Testimonial%20Avatar.png",
+      text: "Alex is somebody you need as a steward of your brand. He’s able to craft compelling brand narratives that bring a company’s vision tadasdo life.",
+      date: "Oct 18th, 2024",
+    },
+    {
+      project: "Sells Quoter",
+      name: "Martín López",
+      company: "Alocra Group",
+      position: "Team Sponsor",
+      avatar: "https://avatars.githubusercontent.com/u/904724?v=4",
+      text: "Alex is a game-changer! His expertise transforms ideas into powerful digital experiences that truly stand out. His technical skills elevate any project to success.",
+      date: "Nov 5th, 2024",
+    },
+    {
+      project: "Company Website",
+      name: "Yoshua Carrasco",
+      company: "Soluciones PDG SA",
+      position: "Owner",
+      avatar: "https://avatars.githubusercontent.com/u/7547335?v=4",
+      text: "Alex's attention to detail and commitment to excellence the difference. He’s a problem solver who ensures every project exceeds expectations.",
+      date: "Jan 27th, 2025",
+    },
+    {
+      project: "Casas Padel Club Website",
+      name: "Waleska Caballero",
+      company: "Hue Agency",
+      position: "Manager",
+      avatar: "https://avatars0.githubusercontent.com/u/9064066?v=4&s=460",
+      text: "Alex delivers beyond expectations. His ability to turn complex challenges into simple, effective solutions is impressive.",
+      date: "Feb 16th, 2025",
+    },
+  ];
+});
 </script>
 <template>
   <!-- Home -->
@@ -160,42 +198,7 @@ const projects: IProjectItem[] = [
   </section>
 
   <!-- Testimonials -->
-  <section class="testimonials-wrapper">
-    <Card title="testimonials" align-title="center">
-      <div class="content">
-        <h2 class="card-title">What clients say!</h2>
-        <br />
-        <div class="testimony">
-          <h3 class="text">
-            "Alex is somebody you need as a steward of your brand. He’s able to
-            craft compelling brand narratives that bring a company’s vision
-            tadasdo life.”
-          </h3>
-          <br />
-          <br />
-          <div class="foot">
-            <div class="client">
-              <UAvatar
-                src="https://cdn.prod.website-files.com/63fbd08ddcf51344a63f9add/63fbd08ddcf5138c183f9b00_Testimonial%20Avatar.png"
-                alt="Client Avatar"
-                size="3xl"
-              />
-              <div class="meta">
-                <p>Name</p>
-                <p class="company">Position and company</p>
-              </div>
-            </div>
-            <div class="controls">
-              <ButtonCircle icon="i-material-symbols-arrow-back-ios-rounded" />
-              <ButtonCircle
-                icon="i-material-symbols-arrow-forward-ios-rounded"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </Card>
-  </section>
+  <Testimonials :testimonies="testimonies" />
 
   <!-- Projects -->
   <section class="projects-wrapper">
@@ -283,50 +286,6 @@ const projects: IProjectItem[] = [
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
-  }
-}
-
-.testimonials-wrapper {
-  @apply mt-8;
-
-  .content {
-    @apply text-center;
-
-    .testimony {
-      @apply w-9/12 m-auto;
-
-      @media (max-width: 530px) {
-        @apply w-full;
-      }
-
-      .text {
-        @apply text-3xl;
-
-        @media (max-width: 530px) {
-          @apply text-2xl;
-        }
-      }
-
-      .foot {
-        @apply w-full flex items-center justify-between;
-
-        @media (max-width: 1024px) {
-          @apply flex-col gap-10;
-        }
-
-        .client {
-          @apply flex items-center gap-4;
-
-          .meta {
-            @apply text-left text-xl;
-
-            .company {
-              @apply text-gray-400;
-            }
-          }
-        }
-      }
-    }
   }
 }
 
