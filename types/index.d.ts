@@ -1,33 +1,39 @@
-interface ILanguageItem {
-  es: string;
+import type { Models } from "node-appwrite";
+
+export interface ILanguageItem {
   en: string;
+  es: string;
 }
 
-interface ISocialAccount {
+export interface ISocialAccount {
   name?: string;
   icon: string;
   colorClasses?: string[];
   url: string;
 }
 
-interface ITestimony {
-  project: string;
+export interface IClientDocument extends Models.Document {
   name: string;
   company: string;
   position: string;
   avatar: string;
-  text: string;
+}
+
+export interface ITestimonyDocument extends Models.Document {
+  client_id: string;
+  comment: string;
+}
+
+export interface IClientTestimony {
+  name: string;
+  company: string;
+  position: ILanguageItem;
+  avatar: string;
+  testimony: ILanguageItem;
   date: string;
 }
 
-interface IClient {
-  name: string;
-  company: string;
-  position: string;
-  avatar: string;
-}
-
-interface IProjectItem {
+export interface IProjectItem {
   bg: string;
   name: string;
   client: string;

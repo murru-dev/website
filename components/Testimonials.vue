@@ -1,14 +1,31 @@
 <script lang="ts" setup>
+import type { IClientTestimony } from "~/types";
+
 const props = defineProps({
   testimonies: {
-    type: Array<ITestimony>,
+    type: Array<IClientTestimony>,
     required: true,
     default: [],
   },
 });
 
+const { language } = useLanguage();
 const index = ref<number>(0);
-const active = computed<ITestimony>(() => props.testimonies[index.value]);
+// const active = computed(() => props.testimonies[index.value]);
+const comment = computed<string>(() =>
+  language.value === "es"
+    ? props.testimonies[index.value].testimony.es
+    : props.testimonies[index.value].testimony.en
+);
+const avatar = computed<string>(() => props.testimonies[index.value].avatar);
+const name = computed<string>(() => props.testimonies[index.value].name);
+const position = computed<string>(() =>
+  language.value === "es"
+    ? props.testimonies[index.value].position.es
+    : props.testimonies[index.value].position.en
+);
+const company = computed<string>(() => props.testimonies[index.value].company);
+
 const next = () => {
   if (index.value === props.testimonies.length - 1) {
     index.value = 0;
@@ -49,17 +66,15 @@ onMounted(() => {
         <h2 class="card-title">What clients say!</h2>
         <br />
         <div class="testimony">
-          <h3 class="text">"{{ active.text }}”</h3>
+          <h3 class="text">"{{ comment }}”</h3>
           <br />
           <br />
           <div class="foot">
             <div class="client">
-              <UAvatar :src="active.avatar" alt="Client Avatar" size="3xl" />
+              <UAvatar :src="avatar" alt="Client Avatar" size="3xl" />
               <div class="meta">
-                <p>{{ active.name }}</p>
-                <p class="company">
-                  {{ active.position }} - {{ active.company }}
-                </p>
+                <p>{{ name }}</p>
+                <p class="company">{{ position }} - {{ company }}</p>
               </div>
             </div>
             <div class="controls">
@@ -110,8 +125,16 @@ onMounted(() => {
         .client {
           @apply flex items-center gap-4;
 
+          @media (max-width: 530px) {
+            @apply flex-col;
+          }
+
           .meta {
             @apply text-left text-xl;
+
+            @media (max-width: 530px) {
+              @apply text-center;
+            }
 
             .company {
               @apply text-gray-400;
