@@ -29,79 +29,12 @@ const openCV = () => {
   );
 };
 
-// Works & Tutorials logic
-const goToProjectsAndTutorials = () => {
-  navigateTo("/projects-and-tutorials");
-};
-const projects: IProjectItem[] = [
-  {
-    bg: "https://bentos-react.vercel.app/assets/work1-CBmW8qa2.jpg",
-    name: "Web Application One",
-    client: "One",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
-    tags: ["project", "application", "web", "fullstack"],
-  },
-  {
-    bg: "https://bentos-react.vercel.app/assets/work2-DtmWxhl8.jpg",
-    name: "Web Site One",
-    client: "Two",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit.",
-    tags: ["tutorial", "web", "frontend"],
-  },
-  {
-    bg: "https://bentos-react.vercel.app/assets/work3-BeTDGQxd.jpg",
-    name: "API One",
-    client: "Thre",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit vestibulum quis eu.",
-    tags: ["project", "backend"],
-  },
-  {
-    bg: "https://bentos-react.vercel.app/assets/work4-MDM2TfKy.jpg",
-    name: "Web Application Four",
-    client: "Four",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
-    tags: ["project", "application", "web", "fullstack"],
-  },
-  {
-    bg: "https://cdn.prod.website-files.com/63fbd08ddcf513deab3f9b05/63fbd08ddcf513df6b3f9b07_Thumb%203%20Small.webp",
-    name: "Web Application Five",
-    client: "Five",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
-    tags: ["project", "application", "web", "fullstack"],
-  },
-  {
-    bg: "https://cdn.prod.website-files.com/63fbd08ddcf513deab3f9b05/63fbd08ddcf513190e3f9b0b_Thumb%201%20Large.webp",
-    name: "Web Site Six",
-    client: "Six",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit vestibulum quis.",
-    tags: ["tutorial", "web", "frontend"],
-  },
-  {
-    bg: "https://cdn.prod.website-files.com/63fbd08ddcf51344a63f9add/63fbd08ddcf513a0613f9af9_Image%201.webp",
-    name: "API One",
-    client: "Thre",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi Maecenas lacinia ut orci ut.",
-    tags: ["project", "backend"],
-  },
-  {
-    bg: "https://cdn.prod.website-files.com/63fbd08ddcf51344a63f9add/63fbd08ddcf5135da03f9afa_Image%202.webp",
-    name: "Web Application Seven",
-    client: "Seven",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
-    tags: ["project", "application", "web", "fullstack"],
-  },
-];
+const projects = ref<IProjectItem[]>([]);
 
 const testimonies = ref<ITestimony[]>([]);
 onMounted(() => {
+  // Query all home data
+  // Testimonies
   testimonies.value = [
     {
       project: "Vocab Tracker",
@@ -139,6 +72,42 @@ onMounted(() => {
       avatar: "https://avatars0.githubusercontent.com/u/9064066?v=4&s=460",
       text: "Alex delivers beyond expectations. His ability to turn complex challenges into simple, effective solutions is impressive.",
       date: "Feb 16th, 2025",
+    },
+  ];
+
+  // Projects
+  projects.value = [
+    {
+      bg: "https://bentos-react.vercel.app/assets/work1-CBmW8qa2.jpg",
+      name: "Web Application One",
+      client: "One",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
+      tags: ["project", "application", "web", "fullstack"],
+    },
+    {
+      bg: "https://bentos-react.vercel.app/assets/work2-DtmWxhl8.jpg",
+      name: "Web Site One",
+      client: "Two",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit.",
+      tags: ["tutorial", "web", "frontend"],
+    },
+    {
+      bg: "https://bentos-react.vercel.app/assets/work3-BeTDGQxd.jpg",
+      name: "API One",
+      client: "Thre",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit vestibulum quis eu.",
+      tags: ["project", "backend"],
+    },
+    {
+      bg: "https://bentos-react.vercel.app/assets/work4-MDM2TfKy.jpg",
+      name: "Web Application Four",
+      client: "Four",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
+      tags: ["project", "application", "web", "fullstack"],
     },
   ];
 });
@@ -201,33 +170,7 @@ onMounted(() => {
   <Testimonials :testimonies="testimonies" />
 
   <!-- Projects -->
-  <section class="projects-wrapper">
-    <Card class="card">
-      <h2 class="card-title">Recent Works & Tutorials</h2>
-      <div class="description">
-        <p>
-          Check out some of my design projects, meticulously crafted with love
-          and dedication, each one reflecting the passion and soul I poured into
-          every detail.
-        </p>
-      </div>
-      <div class="grid-container">
-        <ProjectCard
-          v-for="(project, n) in projects"
-          :key="`child-${n}`"
-          :class="`child-${n + 1}`"
-          :project="project"
-        />
-      </div>
-      <div class="call-to-action">
-        <ButtonCallToAction
-          label="check them all"
-          icon="i-material-symbols-light-workspaces"
-          @click-call-to-action="goToProjectsAndTutorials"
-        />
-      </div>
-    </Card>
-  </section>
+  <Projects :projects="projects" />
 </template>
 <style lang="scss">
 .home-wrapper {
@@ -286,64 +229,6 @@ onMounted(() => {
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
-  }
-}
-
-.projects-wrapper {
-  @apply mt-8;
-
-  .card {
-    @apply text-center;
-
-    .description {
-      @apply px-28 text-[16px] text-gray-400 mb-4;
-
-      @media (max-width: 1024px) {
-        @apply px-0;
-      }
-    }
-
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      gap: 2rem;
-
-      .child-1,
-      .child-4,
-      .child-5,
-      .child-8 {
-        @apply row-span-2 col-span-6;
-      }
-
-      .child-2,
-      .child-3,
-      .child-6,
-      .child-7 {
-        @apply row-span-4 col-span-6;
-      }
-
-      @media (max-width: 1024px) {
-        .child-1,
-        .child-2,
-        .child-3,
-        .child-4,
-        .child-5,
-        .child-6,
-        .child-7,
-        .child-8 {
-          @apply row-span-4 col-span-12;
-        }
-      }
-
-      @media (max-width: 530px) {
-        gap: unset;
-        row-gap: 2rem;
-      }
-    }
-
-    .call-to-action {
-      @apply mx-auto;
-    }
   }
 }
 </style>
