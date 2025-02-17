@@ -10,8 +10,13 @@ const props = defineProps({
 });
 
 const { language } = useLanguage();
+const cardTitle = computed<string>(() =>
+  language.value === "en" ? "testimonials" : "testimonios"
+);
+const title = computed<string>(() =>
+  language.value === "en" ? "Client Reviews!" : "Opiniones de Clientes!"
+);
 const index = ref<number>(0);
-// const active = computed(() => props.testimonies[index.value]);
 const comment = computed<string>(() =>
   language.value === "es"
     ? props.testimonies[index.value].testimony.es
@@ -41,29 +46,16 @@ const prev = () => {
   }
   index.value--;
 };
-
-/* const carouselRef = ref();
-onMounted(() => {
-  setInterval(() => {
-    if (!carouselRef.value) return;
-
-    if (carouselRef.value.page === carouselRef.value.pages) {
-      return carouselRef.value.select(0);
-    }
-
-    carouselRef.value.next();
-  }, 3000);
-}); */
 </script>
 <template>
   <section class="testimonials-wrapper">
     <Card
-      title="testimonials"
+      :title="cardTitle"
       align-title="center"
       v-if="props.testimonies.length > 0"
     >
       <div class="content">
-        <h2 class="card-title">What clients say!</h2>
+        <h2 class="card-title">{{ title }}</h2>
         <br />
         <div class="testimony">
           <h3 class="text">"{{ comment }}”</h3>

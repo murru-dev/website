@@ -1,3 +1,5 @@
+import type { ILanguageItem } from "~/types";
+
 interface IPage {
   name: ILanguageItem;
   url: string;
@@ -13,13 +15,6 @@ const pages: IPage[] = [
   },
   {
     name: {
-      es: "Sobre Mí",
-      en: "About",
-    },
-    url: "/about",
-  },
-  {
-    name: {
       es: "Servicios",
       en: "Services",
     },
@@ -27,10 +22,10 @@ const pages: IPage[] = [
   },
   {
     name: {
-      es: "Proyectos & Tutoriales",
-      en: "Projects & Tutorials",
+      es: "Proyectos",
+      en: "Projects",
     },
-    url: "/projects-and-tutorials",
+    url: "/projects",
   },
 ];
 export const usePage = () => {
