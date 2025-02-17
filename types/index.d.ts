@@ -5,6 +5,11 @@ export interface ILanguageItem {
   es: string;
 }
 
+export interface IHomeIntro {
+  title: ILanguageItem;
+  body: ILanguageItem;
+}
+
 export interface ISocialAccount {
   name?: string;
   icon: string;

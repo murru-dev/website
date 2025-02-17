@@ -1,4 +1,10 @@
-import { Client, Databases, Query } from "node-appwrite";
+import {
+  AppwriteException,
+  Client,
+  Databases,
+  Models,
+  Query,
+} from "node-appwrite";
 import {
   IClientDocument,
   IClientTestimony,
@@ -6,7 +12,35 @@ import {
   ITestimonyDocument,
 } from "~/types";
 
+interface IHomeContent {
+  presentation: ILanguageItem;
+  intro: {
+    title: ILanguageItem;
+    body: ILanguageItem;
+  };
+}
+
 const config = useRuntimeConfig();
+
+const parseHomeContent = (data: Models.Document): IHomeContent => {
+  const jsonData = JSON.parse(data.content);
+  return {
+    presentation: {
+      en: jsonData.presentation.en,
+      es: jsonData.presentation.es,
+    },
+    intro: {
+      title: {
+        en: jsonData.intro.title.en,
+        es: jsonData.intro.title.es,
+      },
+      body: {
+        en: jsonData.intro.body.en,
+        es: jsonData.intro.body.es,
+      },
+    },
+  };
+};
 
 const parseClientTestimony = (
   client: IClientDocument,
@@ -39,6 +73,12 @@ export default defineEventHandler(async () => {
   const databases = new Databases(client);
 
   try {
+    // Query home content
+    const homeContentRes = await databases.listDocuments(
+      config.database,
+      config.homeContentCollection
+    );
+    const parsedHomeConteng = parseHomeContent(homeContentRes.documents[0]);
     // Query testimonies
     const testimoniesRes = await databases.listDocuments(
       config.database,
@@ -69,13 +109,32 @@ export default defineEventHandler(async () => {
 
     return {
       status: "success",
+      pageContent: parsedHomeConteng,
       testimonies: parsedClientsTestimonies,
     };
   } catch (error: unknown) {
-    console.log(error);
-    throw createError({
-      statusCode: 400,
-      statusMessage: "ID should be an integer",
-    });
+    let code: number = 0;
+    let message: string = "";
+    if (error instanceof AppwriteException) {
+      code = error.code;
+      message = error.message;
+      console.log("name ", error.name);
+      console.log("code ", error.code);
+      console.log("type ", error.type);
+      console.log("message ", error.message);
+    } else if (error instanceof Error) {
+      code = 501;
+      message = error.message;
+    } else {
+      console.log(error);
+      code = 590;
+      message = "Check logs";
+    }
+
+    return {
+      status: "fail",
+      code,
+      message,
+    };
   }
 });

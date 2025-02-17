@@ -31,6 +31,7 @@ export default defineNuxtConfig({
     apiKey: process.env.API_KEY,
     database: process.env.DATABASE,
     bucket: process.env.BUCKET,
+    homeContentCollection: process.env.HOME_CONTENT_COLLECTION,
     clientsCollection: process.env.CLIENTS_COLLECTION,
     projectsCollection: process.env.PROJECTS_COLLECTION,
     testimoniesCollection: process.env.TESTIMONIES_COLLECTION,

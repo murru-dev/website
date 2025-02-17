@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import alexAvatar from "@/assets/img/Alex-Pic-no-bg.png";
-import type { IClientTestimony, ISocialAccount } from "~/types";
+import type { IClientTestimony, ILanguageItem, ISocialAccount } from "~/types";
 
 const socialAccounts: ISocialAccount[] = [
   {
@@ -21,7 +21,15 @@ const socialAccounts: ISocialAccount[] = [
   },
 ];
 
-// Home logic
+const { language } = useLanguage();
+
+const description = ref<string>("");
+const greetings = ref<string>("");
+const whoAmI = ref<string>("");
+
+const downloadCvLabel = ref<string>(
+  language.value === "en" ? "download my CV" : "descarga my CV"
+);
 const openCV = () => {
   window.open(
     "https://docs.google.com/document/d/1xIHZdrqBZmrJHR-V4vqHuRoI8cxmXSiSi04Rc-0zUZ4/edit?usp=sharing",
@@ -29,6 +37,14 @@ const openCV = () => {
     "noopener,noreferrer"
   );
 };
+
+const experienceStats = ref<string>(
+  language.value === "en" ? "years of experience" : "años de experiencia"
+);
+const projectsStats = ref({
+  total: 0,
+  label: language.value === "en" ? "finished projects" : "proyectos terminados",
+});
 
 const projects = ref([
   {
@@ -67,74 +83,163 @@ const projects = ref([
 
 const testimonies = ref<IClientTestimony[]>([]);
 
-// Query home data
-const { data, status, error } = await useFetch("/api/home");
+const { data, status } = await useLazyFetch<any>("/api/home");
 
-if (data.value?.status === "success") {
-  testimonies.value = data.value?.testimonies;
-}
+watch(data, (newData) => {
+  if (newData && newData.status === "success") {
+    projectsStats.value.total = projects.value.length;
+
+    if (language.value === "en") {
+      description.value = newData.pageContent.presentation.en;
+      greetings.value = newData.pageContent.intro.title.en;
+      whoAmI.value = newData.pageContent.intro.body.en;
+    } else {
+      description.value = newData.pageContent.presentation.es;
+      greetings.value = newData.pageContent.intro.title.es;
+      whoAmI.value = newData.pageContent.intro.body.es;
+    }
+
+    testimonies.value = newData.testimonies;
+  }
+
+  if (newData && newData.status === "fail") {
+    throw createError({
+      statusCode: data.value.code,
+      statusMessage: data.value.message,
+      fatal: true,
+    });
+  }
+});
 </script>
 <template>
-  <!-- Home -->
-  <section class="home-wrapper">
-    <Card class="id-card">
-      <img :src="alexAvatar" alt="Alex M avatar" class="avatar" />
-      <h2 class="title">Alex Murrugarra</h2>
-      <p class="description">
-        I'm a <b>Web Developer</b> based in Entre Ríos, Argentina.
-      </p>
-      <div class="social-accounts">
-        <a
-          v-for="sa in socialAccounts"
-          :key="sa.icon"
-          :href="sa.url"
-          target="_blank"
-        >
-          <UButton :icon="sa.icon" size="xl" square variant="outline" />
-        </a>
-      </div>
-    </Card>
-
-    <div class="rigth-wrapper">
-      <Card title="hello there!">
-        <h2 class="card-title">
-          I'm Alex M, a dedicated software creator with a deep appreciation for
-          the art of coding.
-        </h2>
-        <ButtonCallToAction
-          label="download my CV"
-          icon="i-ph-read-cv-logo-fill"
-          @click-call-to-action="openCV"
+  <template v-if="status === 'pending'">
+    <section class="home-wrapper">
+      <Card class="id-card">
+        <USkeleton
+          class="avatar-skeleton mx-auto"
+          :ui="{ rounded: 'rounded-full' }"
         />
-      </Card>
-
-      <!-- Stats -->
-      <Card>
-        <div class="stats">
-          <div class="text-center">
-            <h2 class="card-title mb-7">+10</h2>
-            <p class="text-gray-400">Años de Experiencia</p>
-          </div>
-          <div class="text-center">
-            <h2 class="card-title mb-7">3</h2>
-            <p class="text-gray-400">Proyectos Entregados</p>
-          </div>
-          <div class="text-center">
-            <h2 class="card-title mb-7">10</h2>
-            <p class="text-gray-400">Tutoriales en Youtube</p>
-          </div>
+        <br />
+        <USkeleton class="h-10 w-full md:w-1/2 mx-auto" />
+        <br />
+        <USkeleton class="h-10 w-full" />
+        <br />
+        <br />
+        <USkeleton class="h-5 w-full" />
+        <br />
+        <USkeleton class="h-5 w-full md:w-1/2 mx-auto" />
+        <br />
+        <div class="flex justify-between">
+          <USkeleton class="h-11 w-11" />
+          <USkeleton class="h-11 w-11" />
+          <USkeleton class="h-11 w-11" />
+          <USkeleton class="h-11 w-11" />
         </div>
       </Card>
-    </div>
-  </section>
+      <div class="rigth-wrapper right-skeleton">
+        <Card>
+          <USkeleton class="h-5 w-24" />
+          <br />
+          <USkeleton class="h-10 w-full" />
+          <br />
+          <USkeleton class="h-10 w-full" />
+          <br />
+          <USkeleton class="h-10 w-full md:w-10/12" />
+          <br />
+          <br />
+          <USkeleton
+            class="h-11 w-full md:w-48"
+            :ui="{ rounded: 'rounded-xl' }"
+          />
+        </Card>
+        <br />
+        <br />
+        <Card>
+          <div class="flex flex-col md:flex-row justify-around">
+            <div>
+              <USkeleton class="h-11 w-11 mx-auto" />
+              <br />
+              <USkeleton class="h-5 w-48" />
+            </div>
+            <div>
+              <USkeleton class="h-11 w-11 mx-auto" />
+              <br />
+              <USkeleton class="h-5 w-48" />
+            </div>
+          </div>
+        </Card>
+      </div>
+    </section>
+  </template>
+  <template v-else>
+    <!-- Home -->
+    <section class="home-wrapper">
+      <Card class="id-card">
+        <img :src="alexAvatar" alt="Alex M avatar" class="avatar" />
+        <h2 class="title">Alex Murrugarra</h2>
+        <p class="description">
+          {{ description }}
+        </p>
+        <div class="social-accounts">
+          <a
+            v-for="sa in socialAccounts"
+            :key="sa.icon"
+            :href="sa.url"
+            target="_blank"
+          >
+            <UButton :icon="sa.icon" size="xl" square variant="outline" />
+          </a>
+        </div>
+      </Card>
 
-  <!-- Testimonials -->
-  <Testimonials :testimonies="testimonies" />
+      <div class="rigth-wrapper">
+        <Card :title="greetings">
+          <h2 class="card-title">{{ whoAmI }}</h2>
+          <ButtonCallToAction
+            :label="downloadCvLabel"
+            icon="i-ph-read-cv-logo-fill"
+            @click-call-to-action="openCV"
+          />
+        </Card>
 
-  <!-- Projects -->
-  <Projects :projects="projects" />
+        <!-- Stats -->
+        <Card>
+          <div class="stats">
+            <div class="text-center">
+              <h2 class="card-title mb-7">+10</h2>
+              <p class="text-gray-400 capitalize">{{ experienceStats }}</p>
+            </div>
+            <div class="text-center">
+              <h2 class="card-title mb-7">{{ projectsStats.total }}</h2>
+              <p class="text-gray-400 capitalize">{{ projectsStats.label }}</p>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <Testimonials :testimonies="testimonies" />
+
+    <!-- Projects -->
+    <Projects :projects="projects" />
+  </template>
 </template>
 <style lang="scss">
+.avatar-skeleton {
+  @apply h-[250px] w-[250px];
+
+  @media (max-width: 530px) {
+    @apply h-[250px] w-full;
+  }
+}
+.right-skeleton {
+  display: none !important;
+  @media (min-width: 768px) {
+    display: block !important;
+  }
+}
+
 .home-wrapper {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -168,7 +273,7 @@ if (data.value?.status === "success") {
     @apply grid grid-rows-[auto,_1fr] gap-8;
 
     .stats {
-      @apply grid grid-cols-3 gap-8;
+      @apply grid grid-cols-2 gap-8;
 
       div:nth-child(3) {
         @media (max-width: 1024px) {
