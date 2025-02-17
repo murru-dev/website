@@ -23,11 +23,23 @@ const socialAccounts: ISocialAccount[] = [
 
 const { language } = useLanguage();
 
-const description = ref<string>("");
-const greetings = ref<string>("");
-const whoAmI = ref<string>("");
+const description = computed<string>(() =>
+  language.value === "en"
+    ? data.value?.pageContent.presentation.en
+    : data.value?.pageContent.presentation.es
+);
+const greetings = computed<string>(() =>
+  language.value === "en"
+    ? data.value?.pageContent.intro.title.en
+    : data.value?.pageContent.intro.title.es
+);
+const whoAmI = computed<string>(() =>
+  language.value === "en"
+    ? data.value?.pageContent.intro.body.en
+    : data.value?.pageContent.intro.body.es
+);
 
-const downloadCvLabel = ref<string>(
+const downloadCvLabel = computed<string>(() =>
   language.value === "en" ? "download my CV" : "descarga my CV"
 );
 const openCV = () => {
@@ -46,40 +58,7 @@ const projectsStats = ref({
   label: language.value === "en" ? "finished projects" : "proyectos terminados",
 });
 
-const projects = ref([
-  {
-    bg: "https://bentos-react.vercel.app/assets/work1-CBmW8qa2.jpg",
-    name: "Web Application One",
-    client: "One",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
-    tags: ["project", "application", "web", "fullstack"],
-  },
-  {
-    bg: "https://bentos-react.vercel.app/assets/work2-DtmWxhl8.jpg",
-    name: "Web Site One",
-    client: "Two",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit.",
-    tags: ["tutorial", "web", "frontend"],
-  },
-  {
-    bg: "https://bentos-react.vercel.app/assets/work3-BeTDGQxd.jpg",
-    name: "API One",
-    client: "Thre",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit vestibulum quis eu.",
-    tags: ["project", "backend"],
-  },
-  {
-    bg: "https://bentos-react.vercel.app/assets/work4-MDM2TfKy.jpg",
-    name: "Web Application Four",
-    client: "Four",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
-    tags: ["project", "application", "web", "fullstack"],
-  },
-]);
+const projects = ref<any>([]);
 
 const testimonies = ref<IClientTestimony[]>([]);
 
@@ -87,18 +66,41 @@ const { data, status } = await useLazyFetch<any>("/api/home");
 
 watch(data, (newData) => {
   if (newData && newData.status === "success") {
+    projects.value = [
+      {
+        bg: "https://bentos-react.vercel.app/assets/work1-CBmW8qa2.jpg",
+        name: "Web Application One",
+        client: "One",
+        description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
+        tags: ["project", "application", "web", "fullstack"],
+      },
+      {
+        bg: "https://bentos-react.vercel.app/assets/work2-DtmWxhl8.jpg",
+        name: "Web Site One",
+        client: "Two",
+        description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit.",
+        tags: ["tutorial", "web", "frontend"],
+      },
+      {
+        bg: "https://bentos-react.vercel.app/assets/work3-BeTDGQxd.jpg",
+        name: "API One",
+        client: "Thre",
+        description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit vestibulum quis eu.",
+        tags: ["project", "backend"],
+      },
+      {
+        bg: "https://bentos-react.vercel.app/assets/work4-MDM2TfKy.jpg",
+        name: "Web Application Four",
+        client: "Four",
+        description:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
+        tags: ["project", "application", "web", "fullstack"],
+      },
+    ];
     projectsStats.value.total = projects.value.length;
-
-    if (language.value === "en") {
-      description.value = newData.pageContent.presentation.en;
-      greetings.value = newData.pageContent.intro.title.en;
-      whoAmI.value = newData.pageContent.intro.body.en;
-    } else {
-      description.value = newData.pageContent.presentation.es;
-      greetings.value = newData.pageContent.intro.title.es;
-      whoAmI.value = newData.pageContent.intro.body.es;
-    }
-
     testimonies.value = newData.testimonies;
   }
 
