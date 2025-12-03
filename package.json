@@ -11,8 +11,18 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxt/image": "^1.8.0",
+    "@nuxt/ui": "^2.20.0",
     "nuxt": "^3.8.0",
+    "sass": "^1.83.0",
+    "typescript": "^5.2.2",
     "vue": "^3.3.6",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue-tsc": "^2.2.0",
+    "vue3-carousel-nuxt": "^1.1.2"
+  },
+  "dependencies": {
+    "@vueuse/core": "^10.11.1",
+    "node-appwrite": "^15.0.0"
   }
 }
