@@ -1,19 +1,7 @@
-<script lang="ts" setup>
-defineProps({
-  projects: {
-    type: Array<IProjectItem>,
-    required: true,
-    default: [],
-  },
-});
-const goToProjectsAndTutorials = () => {
-  navigateTo("/projects-and-tutorials");
-};
-</script>
 <template>
   <section class="projects-wrapper" v-if="projects.length > 0">
     <Card class="card">
-      <h2 class="card-title">Recent Works & Tutorials</h2>
+      <CardTitle text="Recent Works & Tutorials" />
       <div class="description">
         <p>
           Check out some of my design projects, meticulously crafted with love
@@ -39,7 +27,21 @@ const goToProjectsAndTutorials = () => {
     </Card>
   </section>
 </template>
-<style lang="scss">
+<script lang="ts" setup>
+import type { IProjectItem } from "~/types";
+
+defineProps({
+  projects: {
+    type: Array<IProjectItem>,
+    required: true,
+    default: [],
+  },
+});
+const goToProjectsAndTutorials = () => {
+  navigateTo("/projects-and-tutorials");
+};
+</script>
+<style lang="scss" scoped>
 .projects-wrapper {
   @apply mt-8;
 

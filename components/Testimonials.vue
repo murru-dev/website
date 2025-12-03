@@ -55,7 +55,7 @@ const prev = () => {
       v-if="props.testimonies.length > 0"
     >
       <div class="content">
-        <h2 class="card-title">{{ title }}</h2>
+        <CardTitle :text="title" />
         <br />
         <div class="testimony">
           <h3 class="text">"{{ comment }}”</h3>
@@ -103,7 +103,7 @@ const prev = () => {
         @apply text-3xl;
 
         @media (max-width: 530px) {
-          @apply text-2xl;
+          @apply text-xl;
         }
       }
 
