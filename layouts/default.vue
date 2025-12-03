@@ -15,19 +15,19 @@
           </NuxtLink>
         </nav>
         <div class="actions">
-          <UButton
+          <!-- <UButton
             icon="i-ic-outline-handshake"
             size="sm"
             color="primary"
             variant="ghost"
             label="Hire Me"
             trailing
-          />
-          <UDivider
+          /> -->
+          <!-- <UDivider
             icon="i-fluent-divider-tall-16-filled"
             size="xs"
             class="divider"
-          />
+          /> -->
           <ButtonThemeToggler />
           <!-- <UDivider
             icon="i-fluent-divider-tall-16-filled"
