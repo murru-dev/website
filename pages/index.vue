@@ -107,9 +107,6 @@
 
     <!-- Testimonials -->
     <Testimonials :testimonies="testimonies" />
-
-    <!-- Projects -->
-    <Projects :projects="projects" />
   </template>
 </template>
 <script lang="ts" setup>
