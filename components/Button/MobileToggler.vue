@@ -28,7 +28,7 @@ const { language } = useLanguage();
             <div class="title">Menu</div>
             <div class="actions">
               <ButtonThemeToggler />
-              <ButtonLangToggler />
+              <!-- <ButtonLangToggler /> -->
               <UDivider icon="i-fluent-divider-tall-16-filled" size="xs" />
               <UButton
                 icon="i-heroicons-x-mark-20-solid"

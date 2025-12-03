@@ -1,3 +1,114 @@
+<template>
+  <template v-if="status === 'pending'">
+    <section class="home-wrapper">
+      <Card class="id-card">
+        <USkeleton
+          class="avatar-skeleton mx-auto"
+          :ui="{ rounded: 'rounded-full' }"
+        />
+        <br />
+        <USkeleton class="h-10 w-full md:w-1/2 mx-auto" />
+        <br />
+        <USkeleton class="h-10 w-full" />
+        <br />
+        <br />
+        <USkeleton class="h-5 w-full" />
+        <br />
+        <USkeleton class="h-5 w-full md:w-1/2 mx-auto" />
+        <br />
+        <div class="flex justify-between">
+          <USkeleton class="h-11 w-11" />
+          <USkeleton class="h-11 w-11" />
+          <USkeleton class="h-11 w-11" />
+          <USkeleton class="h-11 w-11" />
+        </div>
+      </Card>
+      <div class="rigth-wrapper right-skeleton">
+        <Card>
+          <USkeleton class="h-5 w-24" />
+          <br />
+          <USkeleton class="h-10 w-full" />
+          <br />
+          <USkeleton class="h-10 w-full" />
+          <br />
+          <USkeleton class="h-10 w-full md:w-10/12" />
+          <br />
+          <br />
+          <USkeleton
+            class="h-11 w-full md:w-48"
+            :ui="{ rounded: 'rounded-xl' }"
+          />
+        </Card>
+        <br />
+        <br />
+        <Card>
+          <div class="flex flex-col md:flex-row justify-around">
+            <div>
+              <USkeleton class="h-11 w-11 mx-auto" />
+              <br />
+              <USkeleton class="h-5 w-48" />
+            </div>
+            <div>
+              <USkeleton class="h-11 w-11 mx-auto" />
+              <br />
+              <USkeleton class="h-5 w-48" />
+            </div>
+          </div>
+        </Card>
+      </div>
+    </section>
+  </template>
+  <template v-else>
+    <!-- Home -->
+    <section class="home-wrapper">
+      <Card class="id-card">
+        <img :src="alexAvatar" alt="Alex M avatar" class="avatar" />
+        <CardTitle text="Alex Murrugarra" class="mt-4" />
+        <p class="description">
+          {{ description }}
+        </p>
+        <div class="social-accounts">
+          <a
+            v-for="sa in socialAccounts"
+            :key="sa.icon"
+            :href="sa.url"
+            target="_blank"
+          >
+            <UButton :icon="sa.icon" size="xl" square variant="outline" />
+          </a>
+        </div>
+      </Card>
+
+      <div class="rigth-wrapper">
+        <Card :title="greetings">
+          <CardTitle :text="whoAmI" />
+          <ButtonCallToAction
+            :label="downloadCvLabel"
+            icon="i-ph-read-cv-logo-fill"
+            @click-call-to-action="openCV"
+          />
+        </Card>
+
+        <!-- Stats -->
+        <Card>
+          <div class="stats">
+            <div class="text-center">
+              <h2 class="card-title mb-7">+10</h2>
+              <p class="text-gray-400 capitalize">{{ experienceStats }}</p>
+            </div>
+            <div class="text-center">
+              <h2 class="card-title mb-7">{{ projectsStats.total }}</h2>
+              <p class="text-gray-400 capitalize">{{ projectsStats.label }}</p>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <Testimonials :testimonies="testimonies" />
+  </template>
+</template>
 <script lang="ts" setup>
 import alexAvatar from "@/assets/img/Alex-Pic-no-bg.png";
 import type { IClientTestimony, ILanguageItem, ISocialAccount } from "~/types";
@@ -72,8 +183,19 @@ watch(data, (newData) => {
         name: "Web Application One",
         client: "One",
         description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas.",
-        tags: ["project", "application", "web", "fullstack"],
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sodales est sit amet tincidunt egestas. Suspendisse vitae ipsum in mi suscipit. Suspendisse vitae ipsum in mi suscipit. Suspendise vit.",
+        tags: [
+          "project",
+          "application",
+          "web",
+          "fullstack",
+          "project",
+          "application",
+          "web",
+          "fullstack",
+          "web",
+          "fullstack",
+        ],
       },
       {
         bg: "https://bentos-react.vercel.app/assets/work2-DtmWxhl8.jpg",
@@ -113,120 +235,6 @@ watch(data, (newData) => {
   }
 });
 </script>
-<template>
-  <template v-if="status === 'pending'">
-    <section class="home-wrapper">
-      <Card class="id-card">
-        <USkeleton
-          class="avatar-skeleton mx-auto"
-          :ui="{ rounded: 'rounded-full' }"
-        />
-        <br />
-        <USkeleton class="h-10 w-full md:w-1/2 mx-auto" />
-        <br />
-        <USkeleton class="h-10 w-full" />
-        <br />
-        <br />
-        <USkeleton class="h-5 w-full" />
-        <br />
-        <USkeleton class="h-5 w-full md:w-1/2 mx-auto" />
-        <br />
-        <div class="flex justify-between">
-          <USkeleton class="h-11 w-11" />
-          <USkeleton class="h-11 w-11" />
-          <USkeleton class="h-11 w-11" />
-          <USkeleton class="h-11 w-11" />
-        </div>
-      </Card>
-      <div class="rigth-wrapper right-skeleton">
-        <Card>
-          <USkeleton class="h-5 w-24" />
-          <br />
-          <USkeleton class="h-10 w-full" />
-          <br />
-          <USkeleton class="h-10 w-full" />
-          <br />
-          <USkeleton class="h-10 w-full md:w-10/12" />
-          <br />
-          <br />
-          <USkeleton
-            class="h-11 w-full md:w-48"
-            :ui="{ rounded: 'rounded-xl' }"
-          />
-        </Card>
-        <br />
-        <br />
-        <Card>
-          <div class="flex flex-col md:flex-row justify-around">
-            <div>
-              <USkeleton class="h-11 w-11 mx-auto" />
-              <br />
-              <USkeleton class="h-5 w-48" />
-            </div>
-            <div>
-              <USkeleton class="h-11 w-11 mx-auto" />
-              <br />
-              <USkeleton class="h-5 w-48" />
-            </div>
-          </div>
-        </Card>
-      </div>
-    </section>
-  </template>
-  <template v-else>
-    <!-- Home -->
-    <section class="home-wrapper">
-      <Card class="id-card">
-        <img :src="alexAvatar" alt="Alex M avatar" class="avatar" />
-        <h2 class="title">Alex Murrugarra</h2>
-        <p class="description">
-          {{ description }}
-        </p>
-        <div class="social-accounts">
-          <a
-            v-for="sa in socialAccounts"
-            :key="sa.icon"
-            :href="sa.url"
-            target="_blank"
-          >
-            <UButton :icon="sa.icon" size="xl" square variant="outline" />
-          </a>
-        </div>
-      </Card>
-
-      <div class="rigth-wrapper">
-        <Card :title="greetings">
-          <h2 class="card-title">{{ whoAmI }}</h2>
-          <ButtonCallToAction
-            :label="downloadCvLabel"
-            icon="i-ph-read-cv-logo-fill"
-            @click-call-to-action="openCV"
-          />
-        </Card>
-
-        <!-- Stats -->
-        <Card>
-          <div class="stats">
-            <div class="text-center">
-              <h2 class="card-title mb-7">+10</h2>
-              <p class="text-gray-400 capitalize">{{ experienceStats }}</p>
-            </div>
-            <div class="text-center">
-              <h2 class="card-title mb-7">{{ projectsStats.total }}</h2>
-              <p class="text-gray-400 capitalize">{{ projectsStats.label }}</p>
-            </div>
-          </div>
-        </Card>
-      </div>
-    </section>
-
-    <!-- Testimonials -->
-    <Testimonials :testimonies="testimonies" />
-
-    <!-- Projects -->
-    <Projects :projects="projects" />
-  </template>
-</template>
 <style lang="scss">
 .avatar-skeleton {
   @apply h-[250px] w-[250px];
@@ -252,10 +260,6 @@ watch(data, (newData) => {
 
     .avatar {
       @apply w-[300px] mx-auto;
-    }
-
-    .title {
-      @apply text-[40px] mb-2;
     }
 
     .description {

@@ -13,20 +13,6 @@ const pages: IPage[] = [
     },
     url: "/",
   },
-  {
-    name: {
-      es: "Servicios",
-      en: "Services",
-    },
-    url: "/services",
-  },
-  {
-    name: {
-      es: "Proyectos",
-      en: "Projects",
-    },
-    url: "/projects",
-  },
 ];
 export const usePage = () => {
   return {
