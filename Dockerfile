@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1
 
-FROM node:18-alpine as base
+FROM node:22-alpine as base
 
 ARG PORT=3000
 
